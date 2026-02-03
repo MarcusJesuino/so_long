@@ -21,5 +21,19 @@
 
 int	ft_printf(const char *str, ...);
 
+int	print_char(int c);
+
+int	print_str(char *str);
+
+int	print_s(long n, int base, char *symbols, int is_signed);
+
+int	print_u(unsigned int num, int base, char*symbols);
+
+int	print_hex_uintptr(uintptr_t num, char *symbols);
+
+int	print_pointer(void *ptr);
+
+int	print_conversion(char especifier, va_list ap);
+
 #endif
 

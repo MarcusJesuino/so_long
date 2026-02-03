@@ -21,8 +21,8 @@ static void	load_one(t_game *g, t_img *img, char *path)
 
 void	load_sprites(t_game *g)
 {
-	load_one(g, &g->floor, FLOOR_PATH);
-	load_one(g, &g->wall, WALL_PATH);
+	load_one(g, &g->floor_img, FLOOR_PATH);
+	load_one(g, &g->wall_img, WALL_PATH);
 	load_one(g, &g->player_img, PLAYER_PATH);
 	load_one(g, &g->exit_img, EXIT_PATH);
 	load_one(g, &g->collect_img, COLLECT_PATH);
