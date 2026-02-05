@@ -6,40 +6,32 @@
 /*   By: masantos <masantos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 23:48:35 by masantos          #+#    #+#             */
-/*   Updated: 2026/01/29 23:48:35 by masantos         ###   ########.fr       */
+/*   Updated: 2026/02/04 19:59:21 by masantos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-static void	destroy_img(t_game *g, t_img *img)
+static void	destroy_img(t_game *g, void *img)
 {
-	if (img->ptr)
-	{
-		mlx_destroy_image(g->mlx, img->ptr);
-		img->ptr = NULL;
-	}
+		mlx_destroy_image(g->mlx, img);
+		img = NULL;
 }
 
 void	destroy_game(t_game *g)
 {
-	if (!g)
-		return ;
-	if (g->mlx)
-	{
-		destroy_img(g, &g->floor);
-		destroy_img(g, &g->wall);
-		destroy_img(g, &g->player_img);
-		destroy_img(g, &g->exit_img);
-		destroy_img(g, &g->collect_img);
-		if (g->win)
-			mlx_destroy_window(g->mlx, g->win);
-		mlx_destroy_display(g->mlx);
-		free(g->mlx);
-		g->mlx = NULL;
-		g->win = NULL;
-	}
-	if (g->map)
-		free_map(g->map);
-	g->map = NULL;
+	destroy_img(g, g->exit_img);
+	destroy_img(g, g->floor_img);
+	destroy_img(g, g->wall_img);
+	destroy_img(g, g->player_img);
+	destroy_img(g, g->collect_img);
+}
+
+void	clean_controler(t_game *g)
+{
+	destroy_game(g);
+	free_map(g->map);
+	mlx_destroy_window(g->mlx, g->win);
+	mlx_destroy_display(g->mlx);
+	free(g->mlx);
 }

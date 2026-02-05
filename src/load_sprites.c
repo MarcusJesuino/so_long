@@ -10,13 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/so_long.h"
+#include "../include/so_long.h" 
 
-static void	load_one(t_game *g, t_img *img, char *path)
+static void	load_one(t_game *g, void **img, char *path)
 {
-	img->ptr = mlx_xpm_file_to_image(g->mlx, path, &img->w, &img->h);
-	if (!img->ptr)
-		game_error(g, "Error\nFail to load sprite");
+	int	w;
+	int	h;
+
+	*img = mlx_xpm_file_to_image(g->mlx, path, &w, &h);
+	if (!*img)
+	{
+		clean_controler(g);
+		error("Fail to load image.");
+	}
 }
 
 void	load_sprites(t_game *g)

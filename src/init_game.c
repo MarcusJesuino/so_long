@@ -36,10 +36,8 @@ static void	find_player_pos(t_game *g)
 	game_error(g, "Error\nPlayer not found");
 }
 
-void	init_game(t_game *g)
+void	initialize_game(t_game *g)
 {
-	g->mlx = NULL;
-	g->win = NULL;
 	g->moves = 0;
 	find_player_pos(g);
 }

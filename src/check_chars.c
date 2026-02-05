@@ -14,21 +14,21 @@
 
 void	check_chars(t_game *game)
 {
-	int	i;
-	int	j;
+	int	y;
+	int	x;
 
-	i = 0;
-	while (i < game->height)
+	y = 0;
+	while (y < game->height)
 	{
-		j = 0;
-		while (j < game->width)
+		x = 0;
+		while (x < game->width)
 		{
-			if (game->map[i][j] != '0' && game->map[i][j] != '1'
-				&& game->map[i][j] != 'P' && game->map[i][j] != 'E'
-				&& game->map[i][j] != 'C')
+			if (game->map[y][x] != '0' && game->map[y][x] != '1'
+				&& game->map[y][x] != 'P' && game->map[y][x] != 'E'
+				&& game->map[y][x] != 'C')
 				game_error(game, "Error\nCaracter invalid on the map");
-			j++;
+			x++;
 		}
-		i++;
+		y++;
 	}
 }

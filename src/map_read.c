@@ -6,7 +6,7 @@
 /*   By: masantos <masantos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 15:16:13 by masantos          #+#    #+#             */
-/*   Updated: 2026/01/29 15:16:13 by masantos         ###   ########.fr       */
+/*   Updated: 2026/02/04 22:09:52 by masantos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,55 +23,67 @@ static int	open_map(char *file)
 	return (fd);
 }
 
-static char	**init_map(t_game *game)
+void parser(char *file, t_game *game)
 {
-	char	**map;
-
-	game->height = 0;
-	game->width = 0;
-	map = (char **)malloc(sizeof(char *) * 1);
-	if (!map)
-		error("Error\nMalloc fail");
-	map[0] = NULL;
-	return (map);
-}
-
-static void	append_line(t_game *game, char ***map, char *line, int fd)
-{
-	char	**old;
-
-	old = *map;
-	trim_newline(line);
-	if (game->height == 0)
-	{
-		game->width = (int)ft_strlen(line);
-		if (game->width == 0)
-			cleanup_and_error("Error\nInvalid map", fd, old, line);
+	read_map(file, game);
+	game->map = init_map(file, game->height, game->width);
+	check_chars(game);
+	check_elements(game);
+	check_walls(game);
+	check_path(game);
 	}
-	*map = grow_map(*map, game->height);
-	if (!(*map))
-		cleanup_and_error("Error\nMalloc fail", fd, old, line);
-	(*map)[game->height++] = line;
-}
 
-char	**read_map(char *file, t_game *game)
+void	read_map(char *file, t_game *game)
 {
 	int		fd;
 	char	*line;
-	char	**map;
-
+	
 	fd = open_map(file);
-	map = init_map(game);
 	line = get_next_line(fd);
 	if (!line)
-		cleanup_and_error("Error\nEmpty map", fd, map, NULL);
+		cleanup_and_error("Map error!!!", game->map);
+	game->width = ft_strlen_no_nl(line);	
 	while (line)
 	{
-		append_line(game, &map, line, fd);
+		if(game->width != ft_strlen_no_nl(line))
+		{
+			free(line);
+			get_next_line(-1);
+			close(fd);
+			error("mapa não retangular");
+		}
+		game->height++;
+		free(line);
 		line = get_next_line(fd);
 	}
-	map[game->height] = NULL;
 	close(fd);
-	game->map = map;
-	return (map);
+}
+
+char **init_map(char *file, int height, int width)
+{
+	int		fd;
+	int		ind_y;
+	char	*line;
+	char	**map;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0 )
+		return(NULL);
+	ind_y = 0;
+	map = ft_calloc((height + 1) * sizeof(char *));
+	if (!map)
+		return (NULL);
+	while (ind_y < height)
+	{
+		line = get_next_line(fd);
+		if(!line)
+			break;
+		map[ind_y] = malloc((width + 1) * sizeof(char));
+		ft_memcpy(map[ind_y], line, (size_t)width);
+		map[ind_y++][width] = '\0';
+		free(line);
+	}
+	get_next_line(-1);
+	close(fd);
+	return(map);
 }

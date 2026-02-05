@@ -6,28 +6,18 @@
 /*   By: masantos <masantos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 15:31:29 by masantos          #+#    #+#             */
-/*   Updated: 2026/01/29 15:31:29 by masantos         ###   ########.fr       */
+/*   Updated: 2026/02/04 22:05:52 by masantos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*trim_newline(char *line)
-{
-	size_t	len;
-
-	if (!line)
-		return (NULL);
-	len = ft_strlen(line);
-	if (len > 0 && line[len - 1] == '\n')
-		line[len - 1] = '\0';
-	return (line);
-}
+#include "../include/so_long.h"
 
 char	**grow_map(char **old, int old_size)
 {
 	char	**new;
 	int		i;
 
-	new = (char **)malloc(sizeof(char *) * (old_size + 2));
+	new = malloc(sizeof(char *) * (old_size + 2));
 	if (!new)
 		return (NULL);
 	i = 0;
@@ -38,7 +28,6 @@ char	**grow_map(char **old, int old_size)
 	}
 	new[old_size] = NULL;
 	new[old_size + 1] = NULL;
-	free(old);
 	return (new);
 }
 

@@ -15,7 +15,7 @@
 void	error(char *msg)
 {
 	ft_putendl_fd(msg, 2);
-	exit(1);
+	exit(0);
 }
 
 void	free_map(char **map)
@@ -43,13 +43,9 @@ void	game_error(t_game *game, char *msg)
 	error(msg);
 }
 
-void	cleanup_and_error(char *msg, int fd, char **map, char *line)
+void	cleanup_and_error(char *msg, char **map)
 {
-	if (line)
-		free(line);
 	if (map)
 		free_map(map);
-	if (fd >= 0)
-		close(fd);
 	error(msg);
 }

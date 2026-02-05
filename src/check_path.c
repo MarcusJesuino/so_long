@@ -6,7 +6,7 @@
 /*   By: masantos <masantos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:05:26 by masantos          #+#    #+#             */
-/*   Updated: 2026/01/29 16:05:26 by masantos         ###   ########.fr       */
+/*   Updated: 2026/02/04 22:04:08 by masantos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,14 @@ static void	flood(t_flood *f, int y, int x)
 		return ;
 	if (f->map[y][x] == '1' || f->map[y][x] == 'V')
 		return ;
+	if (f->map[y][x] == 'E')
+	{
+		f->found_e = 1;
+		f->map[y][x] = '1';
+		return ;
+	}
 	if (f->map[y][x] == 'C')
 		f->found_c++;
-	if (f->map[y][x] == 'E')
-		f->found_e = 1;
 	f->map[y][x] = 'V';
 	flood(f, y - 1, x);
 	flood(f, y + 1, x);

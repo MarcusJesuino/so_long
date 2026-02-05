@@ -30,9 +30,6 @@ LIBFT		= $(LIBFT_DIR)/libft.a
 PRINTF_DIR	= lib/ft_printf
 PRINTF		= $(PRINTF_DIR)/libftprintf.a
 
-GNL_DIR		= lib/gnl
-GNL			= $(GNL_DIR)/get_next_line.a
-
 MLX_DIR		= lib/mlx/minilibx-linux
 MLX			= $(MLX_DIR)/libmlx.a
 
@@ -42,7 +39,7 @@ SRC =	main.c \
 		map_check.c map_read.c map_read_utils.c \
 		check_chars.c check_elements.c check_path.c check_rectangle.c check_walls.c \
 		init_game.c \
-		mlx_init_game.c load_sprites render_map.c \
+		mlx_init_game.c load_sprites.c render_map.c \
 		move.c hooks.c \
 		errors.c destroy.c
 
@@ -53,8 +50,8 @@ DEPS =	$(OBJS:.o=.d)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(PRINTF) $(GNL) $(MLX) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(GNL) $(MLX_FLAGS) -o $(NAME)
+$(NAME): $(LIBFT) $(PRINTF) $(MLX) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(MLX_FLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(MKDIR) $(dir $@)
@@ -66,9 +63,6 @@ $(LIBFT):
 $(PRINTF):
 	$(MAKE) -C $(PRINTF_DIR)
 
-$(GNL):
-	$(MAKE) -C $(GNL_DIR)
-
 $(MLX):
 	$(MAKE) -C $(MLX_DIR)
 
@@ -76,14 +70,12 @@ clean:
 	$(RM) $(OBJ_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
 	$(MAKE) -C $(PRINTF_DIR) clean
-	$(MAKE) -C $(GNL_DIR) clean
 	$(MAKE) -C $(MLX_DIR) clean
 
 fclean: clean
 	$(RM) $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(PRINTF_DIR) fclean
-	$(MAKE) -C $(GNL_DIR) fclean
 
 re: fclean all
 
